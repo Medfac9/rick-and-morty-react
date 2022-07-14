@@ -5,6 +5,8 @@ import Pagination from 'react-bootstrap/Pagination'
 import PageItem from 'react-bootstrap/PageItem'
 import { loadCharacters } from '../allCharacters/allCharactersSlice'
 
+// TODO: REFACTOR FULL PAGINATOR
+
 const Paginator = (info) => {
     const page = useSelector(selectPage);
 
@@ -12,18 +14,15 @@ const Paginator = (info) => {
     const nextDisable = info.info.next === null ? 'disabled' : '';
 
     const dispatch = useDispatch();
-    
-    const onNextPageClickHandler = (e) => {
-        let new_page = page;
 
-        let url = info.info.next;
-        new_page ++;
 
-        dispatch(setPage(new_page));
-        dispatch(loadCharacters({'url': url}));
+    const onNextPageClickHandler = (_e) => {
+        dispatch(setPage( page + 1));
+        dispatch(loadCharacters({ url: info.info.next }));
     };
 
-    const onPrevPageClickHandler = (e) => {
+    const onPrevPageClickHandler = (_e) => {
+        // TODO: Fix as above
         let new_page = page;
 
         let url = info.info.prev;
@@ -34,17 +33,17 @@ const Paginator = (info) => {
     };
 
     const onNumberPageClickHandler = (e) => {
-        let new_page = parseInt(e.target.getAttribute('id'));
-
-        if(page === new_page){
-            return;
-        };
+        // TODO: REFACTOR this entire function
+        const new_page = parseInt(e.target.getAttribute('id'));
+        if(page === new_page) return;
 
         let url = '';
+
+        // TODO: FIX TERNARY
         info.info.prev === null ? url = info.info.next : url = info.info.prev
-        
+
         url = url.split('page=');
-        
+
         // Quitamos los digitos de la pagina
         url = url[0] + 'page=' + new_page + url[1].slice(page.toString().length);
 

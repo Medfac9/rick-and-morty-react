@@ -1,9 +1,10 @@
 import axios from 'axios';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
+// TODO: LIMPIAR ESTE CODIGO
 export const loadCharacters = createAsyncThunk(
     'allCharacters/getAllCharacters',
-    
+
     async (filters={}) => {
         let url = '';
 
@@ -13,7 +14,7 @@ export const loadCharacters = createAsyncThunk(
         else{
             url = 'https://rickandmortyapi.com/api/character/';
             let symbol = '&';
-    
+
             // filters.name !== null ?  url += '?name=' + filters.name : url;
             if(filters.name){
                 url += '?name=' + filters.name;
@@ -21,12 +22,12 @@ export const loadCharacters = createAsyncThunk(
             else{
                 symbol = '?';
             }
-    
+
             if(filters.filters){
                 let url_filters = '';
                 let status = '';
                 let gender = '';
-    
+
                 if(filters.filters['status'] !== 'status-all'){
                     if(filters.filters['status'] === 'status-unknown'){
                         status = 'unknown'
@@ -34,16 +35,16 @@ export const loadCharacters = createAsyncThunk(
                     else{
                         status = filters.filters['status']
                     }
-    
+
                     url_filters += symbol + 'status=' + status;
                     symbol = '&';
                 }
-    
+
                 if(filters.filters['specie'] !== 'specie-all'){
                     url_filters += symbol + 'species=' + filters.filters['specie'];
                     symbol = '&';
                 }
-    
+
                 if(filters.filters['gender'] !== 'gender-all'){
                     if(filters.filters['gender'] === 'gender-unknown'){
                         gender = 'unknown'
@@ -51,10 +52,10 @@ export const loadCharacters = createAsyncThunk(
                     else{
                         gender = filters.filters['gender']
                     }
-    
+
                     url_filters += symbol + 'gender=' + gender;
                 }
-    
+
                 url += url_filters;
             }
         }
@@ -63,6 +64,7 @@ export const loadCharacters = createAsyncThunk(
 
         console.log(response.data)
 
+        // TODO: FILTERING => characters.map(({ id, character }) => ({ ...character, id }));
         return response.data;
     }
 );
@@ -74,10 +76,9 @@ const sliceOptions = {
         info: [],
         isLoading: false,
     },
-    reducers: {
-        
-    },
+    reducers: {},
     extraReducers: {
+        // TODO: pq esta en extra reducers en lugar de reducers?
         [loadCharacters.pending]: (state, action) => {
             state.isLoading = true;
             state.hasError = false;

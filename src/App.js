@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'; 
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { loadCharacters } from './features/allCharacters/allCharactersSlice'
 import AllCharacters from './features/allCharacters/AllCharacters';
@@ -19,6 +19,8 @@ const App = () => {
         dispatch(loadCharacters())
     }, [])
 
+    // TODO: FIX TRIPLE TERNARIES
+
     return(
         <div id='App'>
             <header>
@@ -31,7 +33,7 @@ const App = () => {
                             <div className='col-7'>
                                 <Card.Title>Find your character</Card.Title>
                                 <Card.Text className='text-muted small'>
-                                    If you are a rick and morty geek this is your place. 
+                                    If you are a rick and morty geek this is your place.
                                     Here you find all the information about the characters, chapters and locations. Have fun.
                                 </Card.Text>
                             </div>
@@ -45,7 +47,7 @@ const App = () => {
                         <div className='text-center'>
                             <Spinner />
                         </div>
-                    ) : ( 
+                    ) : (
                         hasError ? (
                             <div className='text-center'>
                                 <Error />

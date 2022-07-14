@@ -21,12 +21,13 @@ const Filters = (props) => {
     const human = <FontAwesomeIcon icon={faUser} />
 
     const filters = useSelector(selectFilters);
-    let new_filters = {...filters}
 
     const onFiltersChangeHandler = (e) => {
+        // TODO: REFACTOR
+        let new_filters = {...filters}
         const filter_name = e.target.name;
         const filter_id = e.target.id.includes('-') === false ? e.target.id : e.target.id.includes('all') ? filter_name+'-all' : filter_name+'-unknown' ;
-        
+
         new_filters = { ...new_filters, [filter_name]: filter_id }
         props.onChange(new_filters);
     };
@@ -72,7 +73,7 @@ const Filters = (props) => {
                     id='satus-unknown'
                     defaultChecked={filters['status'] === 'status-unknown'}
                 />
-            </Form.Group>  
+            </Form.Group>
             <Form.Group className='mb-3' controlId='specie'>
                 <Form.Label>Specie:</Form.Label><br />
                 <Form.Check
@@ -102,7 +103,7 @@ const Filters = (props) => {
                     id='alien'
                     defaultChecked={filters['specie'] === 'alien'}
                 />
-            </Form.Group>  
+            </Form.Group>
             <Form.Group className='mb-3' controlId='gender'>
                 <Form.Label>Gender:</Form.Label><br />
                 <Form.Check
@@ -150,7 +151,7 @@ const Filters = (props) => {
                     id='gender-unknown'
                     defaultChecked={filters['gender'] === 'gender-unknown'}
                 />
-            </Form.Group>  
+            </Form.Group>
         </Form>
     );
 };

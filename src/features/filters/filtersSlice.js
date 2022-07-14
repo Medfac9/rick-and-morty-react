@@ -8,7 +8,11 @@ export const filtersSlice = createSlice({
         'gender': 'gender-all'
     },
     reducers: {
-        setFilters: (state, action) => (state = action.payload)
+        // TODO: DO NOT MUTATE STATE!!
+        setFilters: (state, action) => ({
+            ...state,
+            filters: action.payload
+        })
     },
 });
 

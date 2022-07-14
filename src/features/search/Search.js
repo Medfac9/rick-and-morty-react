@@ -5,15 +5,18 @@ import ShowFilters from '../../components/ShowFilters';
 import { loadCharacters } from '../allCharacters/allCharactersSlice'
 import { selectFilters } from '../filters/filtersSlice';
 import { useCallback } from 'react'
+// import { debounce } from 'lodash';
+import debounce from 'lodash/debounce';
+
+
 
 const Search = () => {
     const dispatch = useDispatch();
     const searchTerm = useSelector(selectSearchTerm);
     const filters = useSelector(selectFilters);
-    const _ = require('lodash');
 
-    const debouncedFilter = useCallback(_.debounce((searchTerm, filters) =>
-        dispatch(loadCharacters({'name': searchTerm, 'filters': filters})), 500), []
+    const debouncedFilter = useCallback(debounce((_searchTerm, _filters) =>
+        dispatch(loadCharacters({name: _searchTerm, filters: _filters})), 500), []
     )
 
 

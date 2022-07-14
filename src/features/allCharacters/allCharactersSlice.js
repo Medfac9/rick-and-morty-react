@@ -14,7 +14,6 @@ export const loadCharacters = createAsyncThunk(
             url = 'https://rickandmortyapi.com/api/character/';
             let symbol = '&';
     
-            // filters.name !== null ?  url += '?name=' + filters.name : url;
             if(filters.name){
                 url += '?name=' + filters.name;
             }

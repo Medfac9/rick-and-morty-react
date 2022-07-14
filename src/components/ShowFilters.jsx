@@ -21,7 +21,7 @@ export default function ShowFilters() {
 
     const onSaveFilterClickHandler = () => {
         dispatch(setFilters(new_filters));
-        dispatch(loadCharacters({'name': searchTerm, 'filters': new_filters}));
+        dispatch(loadCharacters({name: searchTerm, filters: new_filters}));
         handleClose();
     };
 

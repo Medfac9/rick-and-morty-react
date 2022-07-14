@@ -19,6 +19,18 @@ const App = () => {
         dispatch(loadCharacters())
     }, [])
 
+    function setContent() {
+        if (isLoading) {
+          return <div className='text-center'><Spinner /></div>;
+        }
+        else if (hasError) {
+          return <div className='text-center'><Error /></div>;
+        }
+        else {
+            return <div><AllCharacters /><Paginator info={info} /></div>;
+        }
+      }
+
     return(
         <div id='App'>
             <header>
@@ -41,22 +53,7 @@ const App = () => {
                         </div>
                     </Card.Header>
                     <Card.Body>
-                    {isLoading ? (
-                        <div className='text-center'>
-                            <Spinner />
-                        </div>
-                    ) : ( 
-                        hasError ? (
-                            <div className='text-center'>
-                                <Error />
-                            </div>
-                        ) : (
-                            <div>
-                                <AllCharacters />
-                                <Paginator info={info} />
-                            </div>
-                        )
-                    )}
+                        {setContent()}
                     </Card.Body>
                 </Card>
             </main>

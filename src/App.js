@@ -8,7 +8,8 @@ import './index.css';
 import Spinner from './components/Spinner';
 import Error from './components/Error';
 import Card from 'react-bootstrap/Card'
-import Paginator from './features/page/Page';
+// import Paginator from './features/page/Page';
+import Paginator from './features/page/Pagination';
 
 const App = () => {
 
@@ -16,8 +17,21 @@ const App = () => {
     const { info, isLoading, hasError } = useSelector((state) => state.allCharacters);
 
     useEffect(() => {
-        dispatch(loadCharacters())
+        dispatch(loadCharacters());
     }, [])
+
+    function setContent() {
+        if (isLoading) {
+          return <div className='text-center'><Spinner /></div>;
+        }
+        else if (hasError) {
+          return <div className='text-center'><Error /></div>;
+        }
+        else {
+            return <div><AllCharacters /><Paginator info={info} /></div>;
+            // return <div><AllCharacters /><Paginator info={info} /></div>;
+        }
+      }
 
     return(
         <div id='App'>
@@ -41,22 +55,7 @@ const App = () => {
                         </div>
                     </Card.Header>
                     <Card.Body>
-                    {isLoading ? (
-                        <div className='text-center'>
-                            <Spinner />
-                        </div>
-                    ) : ( 
-                        hasError ? (
-                            <div className='text-center'>
-                                <Error />
-                            </div>
-                        ) : (
-                            <div>
-                                <AllCharacters />
-                                <Paginator info={info} />
-                            </div>
-                        )
-                    )}
+                        {setContent()}
                     </Card.Body>
                 </Card>
             </main>

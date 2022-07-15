@@ -13,25 +13,41 @@ const Paginator = (info) => {
 
     const dispatch = useDispatch();
     
-    const onNextPageClickHandler = (e) => {
+    const onNextPageClickHandler = (_e) => {
         let new_page = page;
 
         let url = info.info.next;
         new_page ++;
 
         dispatch(setPage(new_page));
-        dispatch(loadCharacters({'url': url}));
+        dispatch(loadCharacters({ url }));
     };
 
-    const onPrevPageClickHandler = (e) => {
+    const onPrevPageClickHandler = (_e) => {
         let new_page = page;
 
         let url = info.info.prev;
         new_page --;
 
         dispatch(setPage(new_page));
-        dispatch(loadCharacters({'url': url}));
+        dispatch(loadCharacters({url }));
     };
+
+    // const onPageClickHandler = (e) => {
+    //     let url = '';
+        
+    //     if (e.target.id === 'next'){
+    //         url = info.info.next
+    //         page ++;
+    //     }
+    //     else{
+    //         url = info.info.prev;
+    //         page --;
+    //     }
+
+    //     dispatch(setPage(page));
+    //     dispatch(loadCharacters({ url }));
+    // };
 
     const onNumberPageClickHandler = (e) => {
         let new_page = parseInt(e.target.getAttribute('id'));
@@ -40,8 +56,7 @@ const Paginator = (info) => {
             return;
         };
 
-        let url = '';
-        info.info.prev === null ? url = info.info.next : url = info.info.prev
+        let url = info.info.prev === null ? info.info.next : info.info.prev
         
         url = url.split('page=');
         
@@ -49,7 +64,7 @@ const Paginator = (info) => {
         url = url[0] + 'page=' + new_page + url[1].slice(page.toString().length);
 
         dispatch(setPage(new_page));
-        dispatch(loadCharacters({'url': url}));
+        dispatch(loadCharacters({ url }));
     };
 
     let items = [];

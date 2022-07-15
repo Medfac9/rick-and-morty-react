@@ -1,31 +1,32 @@
 import React from 'react';
 import Form from 'react-bootstrap/Form'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMars, faVenus, faGenderless, faUser, faQuestion } from '@fortawesome/free-solid-svg-icons';
-import { faRedditAlien } from '@fortawesome/free-brands-svg-icons';
 import Badge from 'react-bootstrap/Badge'
 import { useSelector } from 'react-redux';
 import { selectFilters } from './filtersSlice';
+import { other, alive, dead, male, female, genderless, unknown, alien, human } from '../../const'
 
 const Filters = (props) => {
-    const alive = <Badge pill bg='success'> </Badge>;
-    const dead = <Badge pill bg='danger'> </Badge>;
-    const unknown_status = <Badge pill bg='secondary'> </Badge>;
-
-    const male = <FontAwesomeIcon icon={faMars} />
-    const female = <FontAwesomeIcon icon={faVenus} />
-    const genderless = <FontAwesomeIcon icon={faGenderless} />
-    const unknown_gender = <FontAwesomeIcon icon={faQuestion} />
-
-    const alien = <FontAwesomeIcon icon={faRedditAlien} />
-    const human = <FontAwesomeIcon icon={faUser} />
 
     const filters = useSelector(selectFilters);
-    let new_filters = {...filters}
-
+    
     const onFiltersChangeHandler = (e) => {
+        let new_filters = {...filters}
         const filter_name = e.target.name;
-        const filter_id = e.target.id.includes('-') === false ? e.target.id : e.target.id.includes('all') ? filter_name+'-all' : filter_name+'-unknown' ;
+
+        let filter_id = e.target.name
+        // Si no viene un - cogemos el id para filtrar
+        if(e.target.id.includes('-') === false){
+            filter_id = e.target.id;
+        } 
+        // Si viene 'all' añadimos '-all' ya que filtra por todos
+        else if(e.target.id.includes('all')){
+            filter_id = filter_name + '-all';
+        }
+        // Sino, añadimos '-unknown' ya que filtra por unknown en status o gender
+        else{
+            filter_id = filter_name + '-unknown' ;
+        } 
         
         new_filters = { ...new_filters, [filter_name]: filter_id }
         props.onChange(new_filters);
@@ -48,7 +49,7 @@ const Filters = (props) => {
                 <Form.Check
                     inline
                     onChange={onFiltersChangeHandler}
-                    label={<>Alive {alive}</>}
+                    label={<>Alive <Badge pill bg={alive}> </Badge></>}
                     name='status'
                     type='radio'
                     id='alive'
@@ -57,7 +58,7 @@ const Filters = (props) => {
                 <Form.Check
                     inline
                     onChange={onFiltersChangeHandler}
-                    label={<>Dead {dead}</>}
+                    label={<>Dead <Badge pill bg={dead}> </Badge></>}
                     name='status'
                     type='radio'
                     id='dead'
@@ -66,7 +67,7 @@ const Filters = (props) => {
                 <Form.Check
                     inline
                     onChange={onFiltersChangeHandler}
-                    label={<>Unknown {unknown_status}</>}
+                    label={<>Unknown <Badge pill bg={other}> </Badge></>}
                     name='status'
                     type='radio'
                     id='satus-unknown'
@@ -87,7 +88,7 @@ const Filters = (props) => {
                 <Form.Check
                     inline
                     onChange={onFiltersChangeHandler}
-                    label={<>Human {human}</>}
+                    label={<>Human <FontAwesomeIcon icon={human} /></>}
                     name='specie'
                     type='radio'
                     id='human'
@@ -96,7 +97,7 @@ const Filters = (props) => {
                 <Form.Check
                     inline
                     onChange={onFiltersChangeHandler}
-                    label={<>Alien {alien}</>}
+                    label={<>Alien <FontAwesomeIcon icon={alien} /></>}
                     name='specie'
                     type='radio'
                     id='alien'
@@ -117,7 +118,7 @@ const Filters = (props) => {
                 <Form.Check
                     inline
                     onChange={onFiltersChangeHandler}
-                    label={<>Female {female}</>}
+                    label={<>Female <FontAwesomeIcon icon={female} /></>}
                     name='gender'
                     type='radio'
                     id='female'
@@ -126,7 +127,7 @@ const Filters = (props) => {
                 <Form.Check
                     inline
                     onChange={onFiltersChangeHandler}
-                    label={<>Male {male}</>}
+                    label={<>Male <FontAwesomeIcon icon={male} /></>}
                     name='gender'
                     type='radio'
                     id='male'
@@ -135,7 +136,7 @@ const Filters = (props) => {
                 <Form.Check
                     inline
                     onChange={onFiltersChangeHandler}
-                    label={<>Genderless {genderless}</>}
+                    label={<>Genderless <FontAwesomeIcon icon={genderless} /></>}
                     name='gender'
                     type='radio'
                     id='genderless'
@@ -144,7 +145,7 @@ const Filters = (props) => {
                 <Form.Check
                     inline
                     onChange={onFiltersChangeHandler}
-                    label={<>Unknown {unknown_gender}</>}
+                    label={<>Unknown <FontAwesomeIcon icon={unknown} /></>}
                     name='gender'
                     type='radio'
                     id='gender-unknown'

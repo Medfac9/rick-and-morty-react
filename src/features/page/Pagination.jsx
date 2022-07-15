@@ -5,24 +5,24 @@ import Pagination from 'react-bootstrap/Pagination'
 import PageItem from 'react-bootstrap/PageItem'
 import { loadCharacters } from '../allCharacters/allCharactersSlice'
 
-export default function MyPagination(info){
+export default function MyPagination({ info }){
     const [pageArray, setPageArray] = useState([]);
     var currentPage = useSelector(selectPage);
 
-    const prevDisable = info.info.prev === null ? 'disabled' : '';
-    const nextDisable = info.info.next === null ? 'disabled' : '';
+    const prevDisable = info.prev === null ? 'disabled' : '';
+    const nextDisable = info.next === null ? 'disabled' : '';
 
     const dispatch = useDispatch();
     
     const onNextPageClickHandler = (_e) => {
-        let url = info.info.next;
+        let url = info.next;
 
         dispatch(increment());
         dispatch(loadCharacters({ url }));
     };
 
     const onPrevPageClickHandler = (_e) => {
-        let url = info.info.prev;
+        let url = info.prev;
 
         dispatch(decrement());
         dispatch(loadCharacters({url }));
@@ -32,11 +32,11 @@ export default function MyPagination(info){
     //     let url = '';
         
     //     if (e.target.id === 'next'){
-    //         url = info.info.next
+    //         url = info.next
     //         dispatch(increment());
     //     }
     //     else{
-    //         url = info.info.prev;
+    //         url = info.prev;
     //         dispatch(decrement());
     //     }
 
@@ -50,7 +50,7 @@ export default function MyPagination(info){
             return;
         };
 
-        let url = info.info.prev === null ? info.info.next : info.info.prev
+        let url = info.prev === null ? info.next : info.prev
         
         url = url.split('page=');
         
@@ -62,7 +62,7 @@ export default function MyPagination(info){
     };
 
     useEffect(() => {
-        const pages = info.info.pages;
+        const pages = info.pages;
         let items = [];
         let outOfRange = false;
         let ellipsis_number = 0;

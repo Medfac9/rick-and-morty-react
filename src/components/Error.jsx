@@ -1,8 +1,8 @@
 import React from 'react';
 import error404 from '../svg/404.svg'
+import { textError } from '../const';
 
 export default function Error() {
-    const textError = 'We have not been able to find any character with your search and filters, try again.'
     return (
         <div>
             <h3>

@@ -67,8 +67,6 @@ export const loadCharacters = createAsyncThunk(
 
         const response = await axios.get(url);
 
-        // console.log(response.data)
-
         return response.data;
     }
 );

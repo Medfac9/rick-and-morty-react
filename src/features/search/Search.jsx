@@ -3,14 +3,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectSearchTerm, setSearchTerm } from './searchSlice';
 import ShowFilters from '../../components/ShowFilters';
 import { loadCharacters } from '../allCharacters/allCharactersSlice'
-import { selectFilters } from '../filters/filtersSlice';
+import { getFilters } from '../filters/filtersSlice';
 import { useCallback } from 'react'
 import debounce from 'lodash/debounce';
 
 const Search = () => {
     const dispatch = useDispatch();
     const searchTerm = useSelector(selectSearchTerm);
-    const filters = useSelector(selectFilters);
+    const filters = useSelector(getFilters);
 
     const debouncedFilter = useCallback(debounce((term, filter) =>
         dispatch(loadCharacters({name: term, filters: filter})), 500), []

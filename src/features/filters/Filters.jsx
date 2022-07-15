@@ -11,6 +11,8 @@ const Filters = ({ onChange }) => {
     const filters = useSelector(selectFilters);
 
     const onFiltersChangeHandler = (e) => {
+
+        // TODO: LIMPIAR
         let new_filters = {...filters}
         const filter_name = e.target.name;
 

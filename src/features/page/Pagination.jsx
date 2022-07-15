@@ -13,7 +13,7 @@ export default function MyPagination(info){
     const nextDisable = info.info.next === null ? 'disabled' : '';
 
     const dispatch = useDispatch();
-    
+
     const onNextPageClickHandler = (_e) => {
         let url = info.info.next;
 
@@ -30,7 +30,7 @@ export default function MyPagination(info){
 
     // const onPageClickHandler = (e) => {
     //     let url = '';
-        
+
     //     if (e.target.id === 'next'){
     //         url = info.info.next
     //         dispatch(increment());
@@ -51,9 +51,10 @@ export default function MyPagination(info){
         };
 
         let url = info.info.prev === null ? info.info.next : info.info.prev
-        
+
+        // localhost:3000/api/characters?page=1&limit=10
         url = url.split('page=');
-        
+
         // Quitamos los digitos de la pagina
         url = url[0] + 'page=' + new_page + url[1].slice(currentPage.toString().length);
 
@@ -91,7 +92,7 @@ export default function MyPagination(info){
         }
         setPageArray(items);
     }, []);
-  
+
     return (
         <Pagination className='justify-content-center'>
             <Pagination.Prev disabled={prevDisable} key='prev' onClick={onPrevPageClickHandler}/>

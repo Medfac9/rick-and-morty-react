@@ -6,10 +6,10 @@ import { useSelector } from 'react-redux';
 import { selectFilters } from './filtersSlice';
 import { other, alive, dead, male, female, genderless, unknown, alien, human } from '../../const'
 
-const Filters = (props) => {
+const Filters = ({ onChange }) => {
 
     const filters = useSelector(selectFilters);
-    
+
     const onFiltersChangeHandler = (e) => {
         let new_filters = {...filters}
         const filter_name = e.target.name;
@@ -18,7 +18,7 @@ const Filters = (props) => {
         // Si no viene un - cogemos el id para filtrar
         if(e.target.id.includes('-') === false){
             filter_id = e.target.id;
-        } 
+        }
         // Si viene 'all' añadimos '-all' ya que filtra por todos
         else if(e.target.id.includes('all')){
             filter_id = filter_name + '-all';
@@ -26,10 +26,10 @@ const Filters = (props) => {
         // Sino, añadimos '-unknown' ya que filtra por unknown en status o gender
         else{
             filter_id = filter_name + '-unknown' ;
-        } 
-        
+        }
+
         new_filters = { ...new_filters, [filter_name]: filter_id }
-        props.onChange(new_filters);
+        onChange(new_filters);
     };
 
 
@@ -73,7 +73,7 @@ const Filters = (props) => {
                     id='satus-unknown'
                     defaultChecked={filters['status'] === 'status-unknown'}
                 />
-            </Form.Group>  
+            </Form.Group>
             <Form.Group className='mb-3' controlId='specie'>
                 <Form.Label>Specie:</Form.Label><br />
                 <Form.Check
@@ -103,7 +103,7 @@ const Filters = (props) => {
                     id='alien'
                     defaultChecked={filters['specie'] === 'alien'}
                 />
-            </Form.Group>  
+            </Form.Group>
             <Form.Group className='mb-3' controlId='gender'>
                 <Form.Label>Gender:</Form.Label><br />
                 <Form.Check
@@ -151,7 +151,7 @@ const Filters = (props) => {
                     id='gender-unknown'
                     defaultChecked={filters['gender'] === 'gender-unknown'}
                 />
-            </Form.Group>  
+            </Form.Group>
         </Form>
     );
 };

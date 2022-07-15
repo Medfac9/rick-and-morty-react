@@ -11,22 +11,22 @@ import { selectSearchTerm } from '../features/search/searchSlice'
 
 export default function ShowFilters() {
 
-    const [show, setShow] = useState(false);    
+    const [show, setShow] = useState(false);
     const handleShow = () => setShow(true);
     const handleClose = () => setShow(false);
-    const filters = useSelector(selectFilters);
-    let new_filters = {...filters}
+    const selectedFilters = useSelector(selectFilters);
+    let filters = { ...selectedFilters }
     const dispatch = useDispatch();
     const searchTerm = useSelector(selectSearchTerm);
 
     const onSaveFilterClickHandler = () => {
-        dispatch(setFilters(new_filters));
-        dispatch(loadCharacters({name: searchTerm, filters: new_filters}));
+        dispatch(setFilters(filters));
+        dispatch(loadCharacters({name: searchTerm, filters}));
         handleClose();
     };
 
     const onFiltersChangeHandler = (event) => {
-        new_filters = event;
+        filters = event;
     }
 
     return (

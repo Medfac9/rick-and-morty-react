@@ -5,49 +5,32 @@ import Pagination from 'react-bootstrap/Pagination'
 import PageItem from 'react-bootstrap/PageItem'
 import { loadCharacters } from '../allCharacters/allCharactersSlice'
 
-const Paginator = (info) => {
+const Paginator = ({ info }) => {
     const page = useSelector(selectPage);
 
-    const prevDisable = info.info.prev === null ? 'disabled' : '';
-    const nextDisable = info.info.next === null ? 'disabled' : '';
+    const prevDisable = info.prev === null ? 'disabled' : '';
+    const nextDisable = info.next === null ? 'disabled' : '';
 
     const dispatch = useDispatch();
-    
-    const onNextPageClickHandler = (_e) => {
-        let new_page = page;
 
-        let url = info.info.next;
-        new_page ++;
+    const goToNextPage = () => {
+        dispatch(setPage(page + 1));
+        dispatch(loadCharacters(info.next));
+    }
 
-        dispatch(setPage(new_page));
-        dispatch(loadCharacters({ url }));
+    const goToPrevPage = () => {
+        dispatch(setPage(page - 1));
+        dispatch(loadCharacters(info.prev));
+    }
+
+    const onPageClickHandler = (e) => {
+        if (e.target.id === 'next') {
+            goToNextPage();
+        }
+        else if (e.target.id === 'prev') {
+            goToPrevPage();
+        }
     };
-
-    const onPrevPageClickHandler = (_e) => {
-        let new_page = page;
-
-        let url = info.info.prev;
-        new_page --;
-
-        dispatch(setPage(new_page));
-        dispatch(loadCharacters({url }));
-    };
-
-    // const onPageClickHandler = (e) => {
-    //     let url = '';
-        
-    //     if (e.target.id === 'next'){
-    //         url = info.info.next
-    //         page ++;
-    //     }
-    //     else{
-    //         url = info.info.prev;
-    //         page --;
-    //     }
-
-    //     dispatch(setPage(page));
-    //     dispatch(loadCharacters({ url }));
-    // };
 
     const onNumberPageClickHandler = (e) => {
         let new_page = parseInt(e.target.getAttribute('id'));
@@ -56,10 +39,10 @@ const Paginator = (info) => {
             return;
         };
 
-        let url = info.info.prev === null ? info.info.next : info.info.prev
-        
+        let url = info.prev === null ? info.next : info.prev
+
         url = url.split('page=');
-        
+
         // Quitamos los digitos de la pagina
         url = url[0] + 'page=' + new_page + url[1].slice(page.toString().length);
 
@@ -68,7 +51,7 @@ const Paginator = (info) => {
     };
 
     let items = [];
-    const pages = info.info.pages;
+    const pages = info.pages;
     let outOfRange = false;
     let ellipsis_number = 0;
 

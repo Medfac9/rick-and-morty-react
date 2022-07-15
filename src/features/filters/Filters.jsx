@@ -9,18 +9,21 @@ import { other, alive, dead, male, female, genderless, unknown, alien, human } f
 const Filters = (props) => {
 
     const filters = useSelector(selectFilters);
-    let new_filters = {...filters}
-
+    
     const onFiltersChangeHandler = (e) => {
+        let new_filters = {...filters}
         const filter_name = e.target.name;
 
         let filter_id = e.target.name
+        // Si no viene un - cogemos el id para filtrar
         if(e.target.id.includes('-') === false){
             filter_id = e.target.id;
         } 
+        // Si viene 'all' añadimos '-all' ya que filtra por todos
         else if(e.target.id.includes('all')){
             filter_id = filter_name + '-all';
         }
+        // Sino, añadimos '-unknown' ya que filtra por unknown en status o gender
         else{
             filter_id = filter_name + '-unknown' ;
         } 

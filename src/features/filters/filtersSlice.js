@@ -3,12 +3,12 @@ import { createSlice } from '@reduxjs/toolkit';
 export const filtersSlice = createSlice({
     name: 'filters',
     initialState: {
-        'status': 'status-all',
-        'specie': 'specie-all',
-        'gender': 'gender-all'
+        'status': null,
+        'specie': null,
+        'gender': null
     },
     reducers: {
-        setFilters: (state, action) => (action.payload)
+        setFilters: (_state, action) => (action.payload)
     },
 });
 

@@ -9,23 +9,18 @@ import { getStatusBg, getGenderIcon, getSpecieIcon } from '../../utils';
 const Filters = ({ onChange }) => {
 
     const filters = useSelector(getFilters);
+    let new_filters = {...filters}
 
     const onFiltersChangeHandler = (e) => {
-        let new_filters = {...filters}
         const filter_name = e.target.name;
+        let filter_id = '';
 
-        let filter_id = e.target.name
-        // Si no viene un - cogemos el id para filtrar
-        if(e.target.id.includes('-') === false){
-            filter_id = e.target.id;
+        // Si es todos, el filtro lo ponemos a null
+        if(e.target.id.includes('all')){
+            filter_id = null ;
         } 
-        // Si viene 'all' añadimos '-all' ya que filtra por todos
-        else if(e.target.id.includes('all')){
-            filter_id = filter_name + '-all';
-        }
-        // Sino, añadimos '-unknown' ya que filtra por unknown en status o gender
         else{
-            filter_id = filter_name + '-unknown' ;
+            filter_id = e.target.id;
         } 
         
         new_filters = { ...new_filters, [filter_name]: filter_id }
@@ -44,7 +39,7 @@ const Filters = ({ onChange }) => {
                     name='status'
                     type='radio'
                     id='status-all'
-                    defaultChecked={filters['status'] === 'status-all'}
+                    defaultChecked={filters['status'] === null}
                 />
                 <Form.Check
                     inline
@@ -71,7 +66,7 @@ const Filters = ({ onChange }) => {
                     name='status'
                     type='radio'
                     id='satus-unknown'
-                    defaultChecked={filters['status'] === 'status-unknown'}
+                    defaultChecked={filters['status'] === 'unknown'}
                 />
             </Form.Group>
             <Form.Group className='mb-3' controlId='specie'>
@@ -83,7 +78,7 @@ const Filters = ({ onChange }) => {
                     name='specie'
                     type='radio'
                     id='specie-all'
-                    defaultChecked={filters['specie'] === 'specie-all'}
+                    defaultChecked={filters['specie'] === null}
                 />
                 <Form.Check
                     inline
@@ -113,7 +108,7 @@ const Filters = ({ onChange }) => {
                     name='gender'
                     type='radio'
                     id='gender-all'
-                    defaultChecked={filters['gender'] === 'gender-all'}
+                    defaultChecked={filters['gender'] === null}
                 />
                 <Form.Check
                     inline
@@ -149,7 +144,7 @@ const Filters = ({ onChange }) => {
                     name='gender'
                     type='radio'
                     id='gender-unknown'
-                    defaultChecked={filters['gender'] === 'gender-unknown'}
+                    defaultChecked={filters['gender'] === 'unknown'}
                 />
             </Form.Group>  
         </Form>

@@ -25,7 +25,7 @@ export const getGenderIcon = (gender) => {
 }
 
 export const getSpecieIcon = (specie) => {
-    const _default = 'secondary';
+    const _default = faQuestion;
     const specieMap = {
         human: faUser,
         alien: faRedditAlien

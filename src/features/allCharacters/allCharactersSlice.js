@@ -32,31 +32,20 @@ export const loadCharacters = createAsyncThunk(
                 let gender = '';
                 
                 // Si viene algo distinto a all filtro por el
-                if(filters.filters['status'] !== 'status-all'){
-                    // Si viene con status- es para diferenciarlo del gender-unknown
-                    if(filters.filters['status'] === 'status-unknown'){
-                        status = 'unknown'
-                    }
-                    else{
-                        status = filters.filters['status']
-                    }
+                if(filters.filters['status']){
+                    status = filters.filters['status']
     
                     url_filters += symbol + 'status=' + status;
                     symbol = '&';
                 }
     
-                if(filters.filters['specie'] !== 'specie-all'){
+                if(filters.filters['specie']){
                     url_filters += symbol + 'species=' + filters.filters['specie'];
                     symbol = '&';
                 }
     
-                if(filters.filters['gender'] !== 'gender-all'){
-                    if(filters.filters['gender'] === 'gender-unknown'){
-                        gender = 'unknown'
-                    }
-                    else{
-                        gender = filters.filters['gender']
-                    }
+                if(filters.filters['gender']){
+                    gender = filters.filters['gender']
     
                     url_filters += symbol + 'gender=' + gender;
                 }

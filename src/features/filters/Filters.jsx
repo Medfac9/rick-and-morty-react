@@ -3,33 +3,34 @@ import Form from 'react-bootstrap/Form'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Badge from 'react-bootstrap/Badge'
 import { useSelector } from 'react-redux';
-import { selectFilters } from './filtersSlice';
-import { other, alive, dead, male, female, genderless, unknown, alien, human } from '../../const'
+import { getFilters } from './filtersSlice';
+import { getStatusBg, getGenderIcon, getSpecieIcon } from '../../utils';
 
-const Filters = (props) => {
+const Filters = ({ onChange }) => {
 
-    const filters = useSelector(selectFilters);
-    
+    const filters = useSelector(getFilters);
+    let new_filters = {...filters}
+
     const onFiltersChangeHandler = (e) => {
-        let new_filters = {...filters}
         const filter_name = e.target.name;
+        let filter_id = '';
 
-        let filter_id = e.target.name
-        // Si no viene un - cogemos el id para filtrar
-        if(e.target.id.includes('-') === false){
-            filter_id = e.target.id;
-        } 
-        // Si viene 'all' añadimos '-all' ya que filtra por todos
-        else if(e.target.id.includes('all')){
-            filter_id = filter_name + '-all';
+        // Si es todos, el filtro lo ponemos a null
+        if(e.target.id.includes('all')){
+            filter_id = null ;
         }
-        // Sino, añadimos '-unknown' ya que filtra por unknown en status o gender
+        // Si el filtro incluye unknown, como hay dos, se le quita 
+        // la parte antes del guion
+        else if(e.target.id.includes('unknow')){
+            const filter = e.target.id.split('-')
+            filter_id = filter[1] ;
+        } 
         else{
-            filter_id = filter_name + '-unknown' ;
+            filter_id = e.target.id;
         } 
         
         new_filters = { ...new_filters, [filter_name]: filter_id }
-        props.onChange(new_filters);
+        onChange(new_filters);
     };
 
 
@@ -44,12 +45,12 @@ const Filters = (props) => {
                     name='status'
                     type='radio'
                     id='status-all'
-                    defaultChecked={filters['status'] === 'status-all'}
+                    defaultChecked={filters['status'] === null}
                 />
                 <Form.Check
                     inline
                     onChange={onFiltersChangeHandler}
-                    label={<>Alive <Badge pill bg={alive}> </Badge></>}
+                    label={<>Alive <Badge pill bg={getStatusBg('alive')}> </Badge></>}
                     name='status'
                     type='radio'
                     id='alive'
@@ -58,7 +59,7 @@ const Filters = (props) => {
                 <Form.Check
                     inline
                     onChange={onFiltersChangeHandler}
-                    label={<>Dead <Badge pill bg={dead}> </Badge></>}
+                    label={<>Dead <Badge pill bg={getStatusBg('dead')}> </Badge></>}
                     name='status'
                     type='radio'
                     id='dead'
@@ -67,13 +68,13 @@ const Filters = (props) => {
                 <Form.Check
                     inline
                     onChange={onFiltersChangeHandler}
-                    label={<>Unknown <Badge pill bg={other}> </Badge></>}
+                    label={<>Unknown <Badge pill bg={getStatusBg()}> </Badge></>}
                     name='status'
                     type='radio'
                     id='satus-unknown'
-                    defaultChecked={filters['status'] === 'status-unknown'}
+                    defaultChecked={filters['status'] === 'unknown'}
                 />
-            </Form.Group>  
+            </Form.Group>
             <Form.Group className='mb-3' controlId='specie'>
                 <Form.Label>Specie:</Form.Label><br />
                 <Form.Check
@@ -83,12 +84,12 @@ const Filters = (props) => {
                     name='specie'
                     type='radio'
                     id='specie-all'
-                    defaultChecked={filters['specie'] === 'specie-all'}
+                    defaultChecked={filters['specie'] === null}
                 />
                 <Form.Check
                     inline
                     onChange={onFiltersChangeHandler}
-                    label={<>Human <FontAwesomeIcon icon={human} /></>}
+                    label={<>Human <FontAwesomeIcon icon={getSpecieIcon('human')} /></>}
                     name='specie'
                     type='radio'
                     id='human'
@@ -97,13 +98,13 @@ const Filters = (props) => {
                 <Form.Check
                     inline
                     onChange={onFiltersChangeHandler}
-                    label={<>Alien <FontAwesomeIcon icon={alien} /></>}
+                    label={<>Alien <FontAwesomeIcon icon={getSpecieIcon('alien')} /></>}
                     name='specie'
                     type='radio'
                     id='alien'
                     defaultChecked={filters['specie'] === 'alien'}
                 />
-            </Form.Group>  
+            </Form.Group>
             <Form.Group className='mb-3' controlId='gender'>
                 <Form.Label>Gender:</Form.Label><br />
                 <Form.Check
@@ -113,12 +114,12 @@ const Filters = (props) => {
                     name='gender'
                     type='radio'
                     id='gender-all'
-                    defaultChecked={filters['gender'] === 'gender-all'}
+                    defaultChecked={filters['gender'] === null}
                 />
                 <Form.Check
                     inline
                     onChange={onFiltersChangeHandler}
-                    label={<>Female <FontAwesomeIcon icon={female} /></>}
+                    label={<>Female <FontAwesomeIcon icon={getGenderIcon('female')} /></>}
                     name='gender'
                     type='radio'
                     id='female'
@@ -127,7 +128,7 @@ const Filters = (props) => {
                 <Form.Check
                     inline
                     onChange={onFiltersChangeHandler}
-                    label={<>Male <FontAwesomeIcon icon={male} /></>}
+                    label={<>Male <FontAwesomeIcon icon={getGenderIcon('male')} /></>}
                     name='gender'
                     type='radio'
                     id='male'
@@ -136,7 +137,7 @@ const Filters = (props) => {
                 <Form.Check
                     inline
                     onChange={onFiltersChangeHandler}
-                    label={<>Genderless <FontAwesomeIcon icon={genderless} /></>}
+                    label={<>Genderless <FontAwesomeIcon icon={getGenderIcon('genderless')} /></>}
                     name='gender'
                     type='radio'
                     id='genderless'
@@ -145,11 +146,11 @@ const Filters = (props) => {
                 <Form.Check
                     inline
                     onChange={onFiltersChangeHandler}
-                    label={<>Unknown <FontAwesomeIcon icon={unknown} /></>}
+                    label={<>Unknown <FontAwesomeIcon icon={getGenderIcon()} /></>}
                     name='gender'
                     type='radio'
                     id='gender-unknown'
-                    defaultChecked={filters['gender'] === 'gender-unknown'}
+                    defaultChecked={filters['gender'] === 'unknown'}
                 />
             </Form.Group>  
         </Form>

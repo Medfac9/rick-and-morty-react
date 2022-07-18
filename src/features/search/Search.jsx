@@ -1,19 +1,21 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectSearchTerm, setSearchTerm } from './searchSlice';
+import { getSearchTerm, setSearchTerm } from './searchSlice';
 import ShowFilters from '../../components/ShowFilters';
 import { loadCharacters } from '../allCharacters/allCharactersSlice'
-import { selectFilters } from '../filters/filtersSlice';
+import { getFilters } from '../filters/filtersSlice';
 import { useCallback } from 'react'
 import debounce from 'lodash/debounce';
+import { setPage } from '../page/pageSlice';
+
 
 const Search = () => {
     const dispatch = useDispatch();
-    const searchTerm = useSelector(selectSearchTerm);
-    const filters = useSelector(selectFilters);
+    const searchTerm = useSelector(getSearchTerm);
+    const filters = useSelector(getFilters);
 
-    const debouncedFilter = useCallback(debounce((term, filter) =>
-        dispatch(loadCharacters({name: term, filters: filter})), 500), []
+    const debouncedFilter = useCallback(debounce(() =>
+        dispatch(loadCharacters()), 500), []
     )
 
 
@@ -21,6 +23,7 @@ const Search = () => {
         const value = e.target.value;
 
         dispatch(setSearchTerm(value));
+        dispatch(setPage(1));
         debouncedFilter(value, filters);
     };
 

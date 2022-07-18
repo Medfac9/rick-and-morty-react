@@ -7,10 +7,7 @@ const AllCharacters = () => {
 
     return (
         <div className='row justify-content-around align-items-start p-4'>
-            {/* {console.log('characters')}
-            {console.log(characters)} */}
             {characters.map((character) => (
-                // console.log(character)
                 <Character character={character} key={character.id} />
             ))}
         </div>

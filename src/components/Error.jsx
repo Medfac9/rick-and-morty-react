@@ -1,12 +1,12 @@
 import React from 'react';
 import error404 from '../svg/404.svg'
-import { textError } from '../const';
+import { TEXT_ERROR } from '../const';
 
 export default function Error() {
     return (
         <div>
             <h3>
-                { textError }
+                { TEXT_ERROR }
             </h3>
             <img 
                 src={error404} 

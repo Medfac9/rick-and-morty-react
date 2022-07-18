@@ -6,12 +6,14 @@ export const pageSlice = createSlice({
     reducers: {
         increment: (state) => state + 1,
         decrement: (state) => state - 1,
-        setPage: (state, action) => (action.payload)
+        setPage: (_state, action) => (action.payload)
     },
 });
 
 export const { setPage, increment, decrement } = pageSlice.actions;
 
-export const selectPage = (state) => state.page;
+export const getPage = (state) => {
+    return state.page;
+}
 
 export default pageSlice.reducer;

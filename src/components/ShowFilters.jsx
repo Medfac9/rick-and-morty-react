@@ -7,7 +7,6 @@ import Filters from '../features/filters/Filters';
 import { useDispatch, useSelector } from 'react-redux';
 import { getFilters, setFilters } from '../features/filters/filtersSlice';
 import { loadCharacters } from '../features/allCharacters/allCharactersSlice'
-import { selectSearchTerm } from '../features/search/searchSlice'
 
 export default function ShowFilters() {
 
@@ -17,11 +16,10 @@ export default function ShowFilters() {
     const selectedFilters = useSelector(getFilters);
     let filters = { ...selectedFilters }
     const dispatch = useDispatch();
-    const searchTerm = useSelector(selectSearchTerm);
 
     const onSaveFilterClickHandler = () => {
         dispatch(setFilters(filters));
-        dispatch(loadCharacters({name: searchTerm, filters: filters}));
+        dispatch(loadCharacters());
         handleClose();
     };
 

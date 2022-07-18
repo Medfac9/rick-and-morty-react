@@ -1,6 +1,50 @@
 import axios from 'axios';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
+const createUrl = (filters) => {
+    let url = 'https://rickandmortyapi.com/api/character/';
+    // Para iniciar los parametros, si no se mete el primer query cambiara a ?
+    let symbol = '&';
+
+    // Si me viene un nombre es lo primero que se añade a la petición de la api
+    if(filters.name){
+        url += '?name=' + filters.name;
+    }
+    else{
+        symbol = '?';
+    }
+    
+    // Filtro por los filtros que me vengan
+    if(filters.filters){
+        let url_filters = '';
+        let status = '';
+        let gender = '';
+        
+        // Si viene algo distinto a all filtro por el
+        if(filters.filters['status']){
+            status = filters.filters['status']
+
+            url_filters += symbol + 'status=' + status;
+            symbol = '&';
+        }
+
+        if(filters.filters['specie']){
+            url_filters += symbol + 'species=' + filters.filters['specie'];
+            symbol = '&';
+        }
+
+        if(filters.filters['gender']){
+            gender = filters.filters['gender']
+
+            url_filters += symbol + 'gender=' + gender;
+        }
+
+        url += url_filters;
+    }
+
+    return url;
+}
+
 export const loadCharacters = createAsyncThunk(
     'allCharacters/getAllCharacters',
     
@@ -13,45 +57,7 @@ export const loadCharacters = createAsyncThunk(
         }
         // Sino calculo yo la url
         else{
-            url = 'https://rickandmortyapi.com/api/character/';
-            // Para iniciar los parametros, si no se mete el primer query cambiara a ?
-            let symbol = '&';
-    
-            // Si me viene un nombre es lo primero que se añade a la petición de la api
-            if(filters.name){
-                url += '?name=' + filters.name;
-            }
-            else{
-                symbol = '?';
-            }
-            
-            // Filtro por los filtros que me vengan
-            if(filters.filters){
-                let url_filters = '';
-                let status = '';
-                let gender = '';
-                
-                // Si viene algo distinto a all filtro por el
-                if(filters.filters['status']){
-                    status = filters.filters['status']
-    
-                    url_filters += symbol + 'status=' + status;
-                    symbol = '&';
-                }
-    
-                if(filters.filters['specie']){
-                    url_filters += symbol + 'species=' + filters.filters['specie'];
-                    symbol = '&';
-                }
-    
-                if(filters.filters['gender']){
-                    gender = filters.filters['gender']
-    
-                    url_filters += symbol + 'gender=' + gender;
-                }
-    
-                url += url_filters;
-            }
+            url = createUrl(filters);
         }
 
         const response = await axios.get(url);

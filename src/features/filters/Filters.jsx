@@ -18,6 +18,12 @@ const Filters = ({ onChange }) => {
         // Si es todos, el filtro lo ponemos a null
         if(e.target.id.includes('all')){
             filter_id = null ;
+        }
+        // Si el filtro incluye unknown, como hay dos, se le quita 
+        // la parte antes del guion
+        else if(e.target.id.includes('unknow')){
+            const filter = e.target.id.split('-')
+            filter_id = filter[1] ;
         } 
         else{
             filter_id = e.target.id;

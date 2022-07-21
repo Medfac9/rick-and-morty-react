@@ -1,5 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Pagination from 'react-bootstrap/Pagination';
 import PageItem from 'react-bootstrap/PageItem';
@@ -7,11 +6,9 @@ import {
   getPage, setPage, increment, decrement,
 } from './pageSlice';
 import { loadCharacters } from '../allCharacters/allCharactersSlice';
-import { InfoResult } from './interface';
+import { InfoInterface } from './interface';
 
-export default function Pager({ info }: InfoResult) {
-  // FIXME: any
-  const [pageArray, setPageArray] = useState<any[]>([]);
+export default function Pager({ info }: { info: InfoInterface}) {
   const currentPage = useSelector(getPage);
   const { next, prev, pages: lastPage } = info;
 
@@ -41,23 +38,16 @@ export default function Pager({ info }: InfoResult) {
     dispatch(loadCharacters());
   };
 
-  useEffect(() => {
-    const prevDisable = prev === null;
-    const nextDisable = next === null;
-    const items = [
-      <Pagination.First disabled={prevDisable} key="first" onClick={onFirstPageClickHandler} />,
-      <Pagination.Prev disabled={prevDisable} key="prev" onClick={onPrevPageClickHandler} />,
-      <PageItem key="currentPage" active>{currentPage}</PageItem>,
-      <Pagination.Next disabled={nextDisable} key="next" onClick={onNextPageClickHandler} />,
-      <Pagination.Last disabled={nextDisable} key="last" onClick={onLastPageClickHandler} />,
-    ];
-
-    setPageArray(items);
-  }, []);
+  const prevDisable = prev === null;
+  const nextDisable = next === null;
 
   return (
     <Pagination className="justify-content-center">
-      {pageArray}
+      <Pagination.First disabled={prevDisable} key="first" onClick={onFirstPageClickHandler} />
+      <Pagination.Prev disabled={prevDisable} key="prev" onClick={onPrevPageClickHandler} />
+      <PageItem key="currentPage" active>{currentPage}</PageItem>
+      <Pagination.Next disabled={nextDisable} key="next" onClick={onNextPageClickHandler} />
+      <Pagination.Last disabled={nextDisable} key="last" onClick={onLastPageClickHandler} />
     </Pagination>
   );
 }

@@ -9,9 +9,9 @@ import { StoreState } from '../../app/interface';
 export const loadCharacters = createAsyncThunk(
   'allCharacters/getAllCharacters',
 
-  async (url: string, thunk) => {
+  async (url: string | null, thunk) => {
     let charactersUrl = url;
-    if (url === undefined) {
+    if (url === null) {
       const state: Partial<StoreState> = thunk.getState();
 
       const { page, search, filters } = state;
@@ -24,8 +24,6 @@ export const loadCharacters = createAsyncThunk(
     return response.data;
   },
 );
-
-// export const loadCharacters = (url = '') => _loadCharacters(url);
 
 const initialState = {
   characters: [],

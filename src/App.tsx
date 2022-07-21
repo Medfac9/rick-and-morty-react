@@ -30,6 +30,7 @@ function App() {
     return (
       <div>
         <AllCharacters />
+        {/* FIXME: fallo de info */}
         <Paginator info={info} />
       </div>
     );
